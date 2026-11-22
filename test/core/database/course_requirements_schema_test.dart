@@ -52,6 +52,8 @@ void main() {
           'created_at',
           'updated_at',
           'hlc',
+          'equipment_id',
+          'query_json',
         }),
       );
     });

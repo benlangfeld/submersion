@@ -301,5 +301,12 @@ extension RungsFromV340 on AppDatabase {
     // or null; re-asserted in beforeOpen. The floor does not move.
     if (from < 379) await _assertAveloLineColumns();
     if (from < 379) await reportProgress();
+
+    // v380: course_requirements.equipment_id and query_json, for the hours
+    // on CCR and dive-query requirement kinds. Columns only, no backfill: a
+    // null is a requirement of the older kinds. The floor rises to 380 (see
+    // minimumCompatibleSchemaVersion). Re-asserted in beforeOpen.
+    if (from < 380) await _assertCourseRequirementConditionColumns();
+    if (from < 380) await reportProgress();
   }
 }

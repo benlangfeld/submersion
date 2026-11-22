@@ -332,7 +332,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// The current schema version as a static constant so that pre-open checks
   /// (e.g. version-mismatch guard) can reference it without an instance.
-  static const int currentSchemaVersion = 379;
+  static const int currentSchemaVersion = 380;
 
   /// The oldest schema whose reader can apply this build's sync payloads
   /// without loss or misinterpretation (the compatibility floor).
@@ -508,7 +508,15 @@ class AppDatabase extends _$AppDatabase {
   /// confirming the app's tags on every device. Peers below 378 are held
   /// until they update. Their own payloads still arrive here and decode
   /// cleanly: a missing column is null, the diver's own tag.
-  static const int minimumCompatibleSchemaVersion = 378;
+  ///
+  /// Raised 378 -> 380 by the derived course requirements (v380): synced
+  /// columns course_requirements.equipment_id and query_json define what a
+  /// 'ccrHours' or 'diveQuery' requirement counts. A peer below 380 reads
+  /// such a row as a dive requirement, and once it upgrades its next full
+  /// publish sends the two columns as explicit nulls, which the merge applies
+  /// as real values, erasing the rebreather and the query on every device.
+  /// Peers below 380 are held until they update.
+  static const int minimumCompatibleSchemaVersion = 380;
 
   /// Every schema version that has a migration block in onUpgrade.
   /// Used to calculate progress step counts. When adding a new migration,
@@ -1770,6 +1778,10 @@ class AppDatabase extends _$AppDatabase {
     // v379: diver_settings visibility and colour of the three Avelo profile
     // lines (issue #4664). Additive and defaulted; the floor does not move.
     379,
+    // v380: course_requirements.equipment_id and query_json, for the hours-on-
+    // CCR and dive-query requirement kinds. Synced columns, no backfill;
+    // the floor rises to 380 (see minimumCompatibleSchemaVersion).
+    380,
   ];
 
   /// Returns the number of migration steps that will execute when upgrading

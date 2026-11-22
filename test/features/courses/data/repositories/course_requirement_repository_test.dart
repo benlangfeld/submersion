@@ -937,4 +937,78 @@ void main() {
       expect(wrote, isFalse);
     });
   });
+
+  group('derived requirements', () {
+    Future<void> seedCcrDive(String id, int runtimeSeconds) async {
+      await _seedDive(id);
+      await DatabaseService.instance.database.customStatement(
+        "UPDATE dives SET dive_mode = 'ccr', runtime = $runtimeSeconds "
+        "WHERE id = '$id'",
+      );
+    }
+
+    test('ccrHours sums CCR runtime against the hours target', () async {
+      await _seedDiverAndCourse();
+      await seedCcrDive('ccr-1', 3600);
+      await _seedDive('oc-1');
+      await seedCcrDive('ccr-2', 5400);
+      await repository.createRequirement(
+        courseId: 'course-1',
+        name: 'CCR time',
+        kind: RequirementKind.ccrHours,
+        targetCount: 2,
+      );
+
+      final item = (await repository.getCourseProgress(
+        'course-1',
+      )).requirements.single;
+      expect(item.derivedAmount, 150);
+      expect(item.isSatisfied, isTrue);
+    });
+
+    test('ccrHours on one rebreather ignores other units', () async {
+      await _seedDiverAndCourse();
+      final db = DatabaseService.instance.database;
+      await seedCcrDive('ccr-1', 7200);
+      await seedCcrDive('ccr-2', 7200);
+      await db.customStatement(
+        "INSERT INTO equipment (id, name, type, created_at, updated_at) "
+        "VALUES ('rb-1', 'Unit A', 'rebreather', 1000, 1000)",
+      );
+      await db.customStatement(
+        "INSERT INTO dive_equipment (dive_id, equipment_id) "
+        "VALUES ('ccr-1', 'rb-1')",
+      );
+      await repository.createRequirement(
+        courseId: 'course-1',
+        name: 'CCR time on Unit A',
+        kind: RequirementKind.ccrHours,
+        targetCount: 3,
+        equipmentId: 'rb-1',
+      );
+
+      final item = (await repository.getCourseProgress(
+        'course-1',
+      )).requirements.single;
+      expect(item.derivedAmount, 120);
+      expect(item.isSatisfied, isFalse);
+    });
+
+    test('diveQuery with no stored query counts nothing', () async {
+      await _seedDiverAndCourse();
+      await _seedDive('dive-1');
+      await repository.createRequirement(
+        courseId: 'course-1',
+        name: 'Deep dives',
+        kind: RequirementKind.diveQuery,
+        targetCount: 1,
+      );
+
+      final item = (await repository.getCourseProgress(
+        'course-1',
+      )).requirements.single;
+      expect(item.derivedAmount, 0);
+      expect(item.isSatisfied, isFalse);
+    });
+  });
 }
