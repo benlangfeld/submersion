@@ -2645,7 +2645,7 @@ void main() {
       expect(find.text('EUR'), findsOneWidget);
     });
 
-    testWidgets('the picker lists the preset codes with their symbols', (
+    testWidgets('the picker lists currency codes with names and symbols', (
       tester,
     ) async {
       await tester.pumpWidget(buildUnitsWidget(getOverrides()));
@@ -2653,8 +2653,17 @@ void main() {
       await openPicker(tester);
 
       expect(find.byType(AlertDialog), findsOneWidget);
-      expect(find.text('EUR  €'), findsOneWidget);
-      expect(find.text('GBP  £'), findsOneWidget);
+      final euro = find.byKey(const ValueKey('currency-EUR'));
+      expect(euro, findsOneWidget);
+      expect(
+        find.descendant(of: euro, matching: find.text('Euro')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: euro, matching: find.text(currencySymbol('EUR'))),
+        findsOneWidget,
+      );
+      expect(find.byKey(const ValueKey('currency-GBP')), findsOneWidget);
       // The current selection is ticked (scoped to the dialog - the page
       // behind it has check icons of its own).
       expect(
@@ -2666,18 +2675,26 @@ void main() {
       );
     });
 
-    testWidgets('picking a currency persists it and closes the dialog', (
+    testWidgets('finding BRL by name persists it and closes the dialog', (
       tester,
     ) async {
       await tester.pumpWidget(buildUnitsWidget(getOverrides()));
       await tester.pumpAndSettle();
       await openPicker(tester);
 
-      await tester.tap(find.text('EUR  €'));
+      await tester.enterText(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.byType(TextField),
+        ),
+        'brazil',
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('currency-BRL')));
       await tester.pumpAndSettle();
 
       expect(find.byType(AlertDialog), findsNothing);
-      expect(find.text('EUR'), findsOneWidget);
+      expect(find.text('BRL'), findsOneWidget);
     });
 
     testWidgets('cancelling leaves the currency unchanged', (tester) async {
@@ -2692,29 +2709,30 @@ void main() {
       expect(find.text('USD'), findsOneWidget);
     });
 
-    testWidgets('a stored code outside the presets stays selectable', (
-      tester,
-    ) async {
-      // Currency is free text elsewhere in the app, so the picker must offer
-      // the persisted value even when it is not one of the presets.
-      await tester.pumpWidget(
-        buildUnitsWidget(
-          getOverrides(const AppSettings(defaultCurrency: 'ISK')),
-        ),
-      );
-      await tester.pumpAndSettle();
-      await openPicker(tester);
+    testWidgets(
+      'a stored historical code outside the catalog stays selectable',
+      (tester) async {
+        // Currency is free text elsewhere in the app, so the picker must offer
+        // the persisted value even when it is no longer in the current catalog.
+        await tester.pumpWidget(
+          buildUnitsWidget(
+            getOverrides(const AppSettings(defaultCurrency: 'HRK')),
+          ),
+        );
+        await tester.pumpAndSettle();
+        await openPicker(tester);
 
-      // Listed with its symbol in the dialog, and ticked as the current value.
-      expect(find.text('ISK  ${currencySymbol('ISK')}'), findsOneWidget);
-      expect(
-        find.descendant(
-          of: find.byType(AlertDialog),
-          matching: find.byIcon(Icons.check),
-        ),
-        findsOneWidget,
-      );
-    });
+        // Listed with its symbol in the dialog, and ticked as the current value.
+        expect(find.byKey(const ValueKey('currency-HRK')), findsOneWidget);
+        expect(
+          find.descendant(
+            of: find.byType(AlertDialog),
+            matching: find.byIcon(Icons.check),
+          ),
+          findsOneWidget,
+        );
+      },
+    );
   });
 
   group('Decompression GTR settings', () {
