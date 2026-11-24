@@ -1,7 +1,9 @@
 import 'package:intl/intl.dart';
 
-/// Common currency codes offered as presets in pickers. Free-text entry still
-/// allows any other ISO 4217 code.
+import 'package:submersion/core/constants/currencies.dart';
+
+/// Initial preferred currencies for users who have not configured their list.
+/// Every picker also offers the full ISO 4217 catalog.
 const List<String> kCommonCurrencyCodes = [
   'USD',
   'EUR',
@@ -23,16 +25,33 @@ const List<String> kCommonCurrencyCodes = [
   'ZAR',
 ];
 
-/// The preset codes, with [currentCode] prepended when it is a real code
-/// outside the presets. Free-text entry means a stored currency can be
-/// anything; without this it would vanish from every picker that offers only
-/// the presets, leaving the current value unselectable.
-List<String> currencyCodesWith(String? currentCode) {
+/// Normalizes preferences without discarding historical or future ISO codes.
+List<String> normalizeCurrencyPreferences(Iterable<String> codes) =>
+    List.unmodifiable({
+      for (final code in codes.map((raw) => raw.trim().toUpperCase()))
+        if (RegExp(r'^[A-Z]{3}$').hasMatch(code)) code,
+    });
+
+bool currencyMatchesQuery(String code, String query) {
+  final search = query.trim().toLowerCase();
+  return code.toLowerCase().contains(search) ||
+      (kCurrencyNames[code] ?? '').toLowerCase().contains(search);
+}
+
+/// Preferred currencies first, then the complete offline catalog by code.
+/// A stored value outside the preferences leads the list, even if it is a
+/// historical or custom code, so opening an editor never drops its currency.
+List<String> currencyCodesWith(
+  String? currentCode, {
+  Iterable<String> preferred = kCommonCurrencyCodes,
+}) {
   final current = (currentCode ?? '').trim().toUpperCase();
-  if (current.isEmpty || kCommonCurrencyCodes.contains(current)) {
-    return kCommonCurrencyCodes;
-  }
-  return [current, ...kCommonCurrencyCodes];
+  final favorites = normalizeCurrencyPreferences(preferred);
+  return List.unmodifiable({
+    if (current.isNotEmpty && !favorites.contains(current)) current,
+    ...favorites,
+    ...kCurrencyNames.keys,
+  });
 }
 
 /// The symbol for [currencyCode] (e.g. 'EUR' -> '€'), falling back to the

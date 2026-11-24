@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:submersion/core/utils/currency.dart';
 import 'package:submersion/core/utils/number_input.dart';
 import 'package:submersion/core/utils/unit_formatter.dart';
 import 'package:submersion/features/dive_centers/domain/entities/dive_center.dart';
@@ -11,6 +10,7 @@ import 'package:submersion/features/dive_centers/presentation/widgets/dive_cente
 import 'package:submersion/features/dive_log/domain/entities/dive.dart'
     show GasMix;
 import 'package:submersion/features/divers/presentation/providers/diver_providers.dart';
+import 'package:submersion/features/settings/presentation/providers/currency_preferences_provider.dart';
 import 'package:submersion/features/settings/presentation/providers/settings_providers.dart';
 import 'package:submersion/features/trips/data/services/trip_fill_saver.dart';
 import 'package:submersion/features/trips/domain/entities/trip_cylinder_event.dart';
@@ -599,7 +599,9 @@ class _FillSheetState extends ConsumerState<_FillSheet> {
                       labelText: l10n.trips_cylinders_fill_currency,
                     ),
                     items: [
-                      for (final code in currencyCodesWith(_currency))
+                      for (final code in ref.watch(
+                        currencyOptionsProvider(_currency),
+                      ))
                         DropdownMenuItem(value: code, child: Text(code)),
                     ],
                     onChanged: (v) {

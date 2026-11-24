@@ -63550,4 +63550,17 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'ホームの上部に表示する数値を選択します。表示するデータがまだない数値は省略されます。';
+
+  @override
+  String get settings_currency_preferred_title => '優先通貨';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      '先に表示する通貨を選択します。すべての通貨は引き続き利用できます。';
+
+  @override
+  String get currency_search_hint => 'コードまたは名前で検索';
+
+  @override
+  String get currency_noResults => '一致する通貨がありません';
 }

@@ -67223,4 +67223,17 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'اختر الأرقام المعروضة أعلى الشاشة الرئيسية. يُحذف الرقم الذي ليس لديه ما يعرضه بعد.';
+
+  @override
+  String get settings_currency_preferred_title => 'العملات المفضلة';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      'اختر العملات التي تظهر أولاً. تبقى جميع العملات متاحة.';
+
+  @override
+  String get currency_search_hint => 'البحث بالرمز أو الاسم';
+
+  @override
+  String get currency_noResults => 'لا توجد عملات مطابقة';
 }

@@ -19300,5 +19300,9 @@
   "settings_homePanels_keyNumbersCount": "{shown} מתוך {total}",
   "settings_homePanels_activityCalendar": "לוח פעילות",
   "settings_homePanels_recentOutings": "יציאות אחרונות",
-  "settings_homeKeyNumbers_description": "בחר את המספרים שיוצגו בראש מסך הבית. מספר שעדיין אין לו מה להציג מושמט."
+  "settings_homeKeyNumbers_description": "בחר את המספרים שיוצגו בראש מסך הבית. מספר שעדיין אין לו מה להציג מושמט.",
+  "settings_currency_preferred_title": "מטבעות מועדפים",
+  "settings_currency_preferred_subtitle": "בחרו אילו מטבעות יוצגו תחילה. כל המטבעות נשארים זמינים.",
+  "currency_search_hint": "חיפוש לפי קוד או שם",
+  "currency_noResults": "לא נמצאו מטבעות תואמים"
 }

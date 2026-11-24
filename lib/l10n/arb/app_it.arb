@@ -19300,5 +19300,9 @@
   "settings_homePanels_keyNumbersCount": "{shown} di {total}",
   "settings_homePanels_activityCalendar": "Calendario attività",
   "settings_homePanels_recentOutings": "Uscite recenti",
-  "settings_homeKeyNumbers_description": "Scegli i numeri mostrati in cima alla Home. Un numero che non ha ancora nulla da mostrare viene omesso."
+  "settings_homeKeyNumbers_description": "Scegli i numeri mostrati in cima alla Home. Un numero che non ha ancora nulla da mostrare viene omesso.",
+  "settings_currency_preferred_title": "Valute preferite",
+  "settings_currency_preferred_subtitle": "Scegli le valute da mostrare per prime. Tutte le valute restano disponibili.",
+  "currency_search_hint": "Cerca per codice o nome",
+  "currency_noResults": "Nessuna valuta trovata"
 }

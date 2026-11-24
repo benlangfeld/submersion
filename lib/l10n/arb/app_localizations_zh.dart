@@ -62046,4 +62046,16 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       '选择首页顶部显示的数字。尚无内容可显示的数字会被省略。';
+
+  @override
+  String get settings_currency_preferred_title => '首选货币';
+
+  @override
+  String get settings_currency_preferred_subtitle => '选择优先显示的货币。所有货币仍然可用。';
+
+  @override
+  String get currency_search_hint => '按代码或名称搜索';
+
+  @override
+  String get currency_noResults => '没有匹配的货币';
 }

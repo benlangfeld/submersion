@@ -64883,4 +64883,17 @@ class AppLocalizationsHe extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'בחר את המספרים שיוצגו בראש מסך הבית. מספר שעדיין אין לו מה להציג מושמט.';
+
+  @override
+  String get settings_currency_preferred_title => 'מטבעות מועדפים';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      'בחרו אילו מטבעות יוצגו תחילה. כל המטבעות נשארים זמינים.';
+
+  @override
+  String get currency_search_hint => 'חיפוש לפי קוד או שם';
+
+  @override
+  String get currency_noResults => 'לא נמצאו מטבעות תואמים';
 }

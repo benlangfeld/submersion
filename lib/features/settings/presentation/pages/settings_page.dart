@@ -7,8 +7,10 @@ import 'package:submersion/core/platform/device_capabilities.dart';
 import 'package:submersion/features/equipment/presentation/widgets/profile_checklist_dialog.dart';
 import 'package:submersion/features/equipment/presentation/providers/equipment_share_providers.dart';
 import 'package:submersion/features/equipment/presentation/providers/equipment_providers.dart';
-import 'package:submersion/core/utils/currency.dart';
+import 'package:submersion/shared/widgets/currency_picker_dialog.dart';
+import 'package:submersion/features/settings/presentation/widgets/preferred_currencies_tile.dart';
 import 'package:submersion/core/providers/provider.dart';
+import 'package:submersion/core/utils/currency.dart';
 
 import 'package:submersion/features/settings/presentation/info/settings_info.dart';
 import 'package:submersion/features/settings/presentation/widgets/altitude_distance_unit_pickers.dart';
@@ -44,6 +46,7 @@ import 'package:submersion/shared/widgets/master_detail/responsive_breakpoints.d
 import 'package:submersion/features/divers/presentation/providers/diver_providers.dart';
 import 'package:submersion/features/divers/presentation/providers/profile_hides_providers.dart';
 import 'package:submersion/features/dive_sites/presentation/providers/site_providers.dart';
+import 'package:submersion/features/settings/presentation/providers/currency_preferences_provider.dart';
 import 'package:submersion/features/settings/presentation/providers/settings_providers.dart';
 import 'package:submersion/features/settings/presentation/pages/diver_profile_hub_page.dart';
 import 'package:submersion/features/settings/presentation/pages/language_settings_page.dart';
@@ -649,6 +652,8 @@ class _UnitsSectionContent extends ConsumerWidget {
                     settings.defaultCurrency,
                   ),
                 ),
+                const Divider(height: 1),
+                const PreferredCurrenciesTile(),
               ],
             ),
           ),
@@ -1132,49 +1137,23 @@ class _UnitsSectionContent extends ConsumerWidget {
     );
   }
 
-  void _showCurrencyPicker(
+  Future<void> _showCurrencyPicker(
     BuildContext context,
     WidgetRef ref,
     String currentCode,
-  ) {
-    final current = currentCode.trim().toUpperCase();
-    final codes = currencyCodesWith(current);
-    showDialog<void>(
+  ) async {
+    final code = await showDialog<String>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(context.l10n.settings_units_dialog_defaultCurrency),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: ListView(
-            shrinkWrap: true,
-            children: [
-              for (final code in codes)
-                ListTile(
-                  title: Text('$code  ${currencySymbol(code)}'),
-                  trailing: code == current
-                      ? Icon(
-                          Icons.check,
-                          color: Theme.of(context).colorScheme.primary,
-                        )
-                      : null,
-                  onTap: () {
-                    ref
-                        .read(settingsProvider.notifier)
-                        .setDefaultCurrency(code);
-                    Navigator.of(dialogContext).pop();
-                  },
-                ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(context.l10n.common_action_cancel),
-          ),
-        ],
+      builder: (_) => CurrencyPickerDialog(
+        currentCode: currentCode,
+        preferred:
+            ref.read(preferredCurrencyCodesProvider).value ??
+            kCommonCurrencyCodes,
       ),
     );
+    if (code != null && context.mounted) {
+      await ref.read(settingsProvider.notifier).setDefaultCurrency(code);
+    }
   }
 
   void _showTimeFormatPicker(

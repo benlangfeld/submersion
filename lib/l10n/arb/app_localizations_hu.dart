@@ -65841,4 +65841,17 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'Válaszd ki a Kezdőlap tetején látható számokat. Az a szám, amelyhez még nincs adat, kimarad.';
+
+  @override
+  String get settings_currency_preferred_title => 'Kedvelt pénznemek';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      'Válassza ki az elsőként megjelenő pénznemeket. Minden pénznem elérhető marad.';
+
+  @override
+  String get currency_search_hint => 'Keresés kód vagy név alapján';
+
+  @override
+  String get currency_noResults => 'Nincs megfelelő pénznem';
 }

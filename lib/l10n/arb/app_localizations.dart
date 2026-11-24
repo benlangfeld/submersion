@@ -103555,6 +103555,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose the numbers shown at the top of Home. A number with nothing to show yet is left out.'**
   String get settings_homeKeyNumbers_description;
+
+  /// Settings row and dialog for the shared preferred currency list.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred currencies'**
+  String get settings_currency_preferred_title;
+
+  /// Explains that preferred currencies appear first without hiding the complete catalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose currencies to show first. All currencies remain available.'**
+  String get settings_currency_preferred_subtitle;
+
+  /// Searches the offline ISO currency catalog by code or English ISO name.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by code or name'**
+  String get currency_search_hint;
+
+  /// Empty result in the searchable currency catalog.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching currencies'**
+  String get currency_noResults;
 }
 
 class _AppLocalizationsDelegate

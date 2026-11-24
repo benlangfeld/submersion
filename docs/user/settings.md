@@ -58,6 +58,7 @@ Formats** and **Time & Date**. Quick Select changes none of it:
 | **Gas calculations** | **Real gas** accounts for compressibility (a 12 L cylinder at 200 bar holds about 2317 L); **Ideal gas** matches hand calculation and dive tables (2400 L). Affects RMV, gas used, gas statistics, the planner and the gas calculators. | Real gas |
 | **Water type** | The default water type for the planner | Salt water |
 | **Default Currency** | For prices and costs | USD |
+| **Preferred currencies** | Currencies to show first in every currency selector. The complete ISO 4217 catalog remains available. This preference is shared by the profiles in your library and syncs between devices. | Common currencies |
 | **Visibility scale** | How visibility you measured is described: **Tropical**, **Temperate**, **Cold water / Inland**, or **Custom** | Tropical |
 | **Coordinate format** | **Decimal degrees**, **Degrees and decimal minutes**, **Degrees, minutes, seconds**, **UTM** or **MGRS** | Decimal degrees |
 | **Place name language** | The language used when a site's country, region and town are looked up from its coordinates. Existing sites are not changed. | |
@@ -66,6 +67,12 @@ Formats** and **Time & Date**. Quick Select changes none of it:
 | **First day of week** | **Monday**, **Sunday** or **Saturday**, or **Automatic** to follow your device's region. Orders the Day of Week chart, the weekday filter and the date picker calendars, and starts the weeks of weekly trend charts. | Automatic |
 
 <!-- screenshot: images/settings/units.png: units settings -->
+
+The default currency picker lets you search by code (for example **BRL**) or
+the currency's English ISO name (**Brazilian Real**). In **Preferred
+currencies**, select the currencies you use most and tap **Save**. Clear all
+selections to show the catalog in code order. Changing preferences does not
+change any saved prices or their currencies.
 
 ## Decompression
 

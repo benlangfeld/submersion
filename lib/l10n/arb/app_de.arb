@@ -19425,5 +19425,9 @@
   "settings_homePanels_keyNumbersCount": "{shown} von {total}",
   "settings_homePanels_activityCalendar": "Aktivitätskalender",
   "settings_homePanels_recentOutings": "Letzte Tauchausflüge",
-  "settings_homeKeyNumbers_description": "Wähle die Zahlen oben auf der Startseite. Eine Zahl, für die es noch nichts gibt, wird ausgelassen."
+  "settings_homeKeyNumbers_description": "Wähle die Zahlen oben auf der Startseite. Eine Zahl, für die es noch nichts gibt, wird ausgelassen.",
+  "settings_currency_preferred_title": "Bevorzugte Währungen",
+  "settings_currency_preferred_subtitle": "Wähle, welche Währungen zuerst erscheinen. Alle Währungen bleiben verfügbar.",
+  "currency_search_hint": "Nach Code oder Name suchen",
+  "currency_noResults": "Keine passenden Währungen"
 }

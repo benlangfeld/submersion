@@ -66097,4 +66097,17 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'Wähle die Zahlen oben auf der Startseite. Eine Zahl, für die es noch nichts gibt, wird ausgelassen.';
+
+  @override
+  String get settings_currency_preferred_title => 'Bevorzugte Währungen';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      'Wähle, welche Währungen zuerst erscheinen. Alle Währungen bleiben verfügbar.';
+
+  @override
+  String get currency_search_hint => 'Nach Code oder Name suchen';
+
+  @override
+  String get currency_noResults => 'Keine passenden Währungen';
 }

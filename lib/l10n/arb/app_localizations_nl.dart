@@ -65834,4 +65834,17 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'Kies de cijfers bovenaan Start. Een cijfer zonder iets om te tonen wordt weggelaten.';
+
+  @override
+  String get settings_currency_preferred_title => 'Voorkeursvaluta';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      'Kies welke valuta eerst verschijnen. Alle valuta blijven beschikbaar.';
+
+  @override
+  String get currency_search_hint => 'Zoeken op code of naam';
+
+  @override
+  String get currency_noResults => 'Geen overeenkomende valuta';
 }

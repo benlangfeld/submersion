@@ -65219,4 +65219,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'Choose the numbers shown at the top of Home. A number with nothing to show yet is left out.';
+
+  @override
+  String get settings_currency_preferred_title => 'Preferred currencies';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      'Choose currencies to show first. All currencies remain available.';
+
+  @override
+  String get currency_search_hint => 'Search by code or name';
+
+  @override
+  String get currency_noResults => 'No matching currencies';
 }

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:submersion/core/constants/enums.dart';
 import 'package:submersion/core/providers/provider.dart';
 import 'package:submersion/core/utils/currency.dart';
+import 'package:submersion/features/settings/presentation/providers/currency_preferences_provider.dart';
 import 'package:submersion/features/equipment/domain/entities/equipment_item.dart';
 import 'package:submersion/features/equipment/domain/entities/service_record.dart';
 import 'package:submersion/features/equipment/presentation/pages/equipment_detail_page.dart';
@@ -212,6 +213,7 @@ void main() {
       WidgetTester tester, {
       ServiceRecord? existing,
       String defaultCurrency = 'USD',
+      List<String>? preferred,
     }) async {
       tester.view.devicePixelRatio = 1.0;
       tester.view.physicalSize = const Size(800, 1600);
@@ -229,6 +231,10 @@ void main() {
           overrides: [
             ...overrides,
             serviceKindsProvider.overrideWith((ref) async => const []),
+            if (preferred != null)
+              preferredCurrencyCodesProvider.overrideWith(
+                (ref) async => preferred,
+              ),
           ].cast(),
           child: MaterialApp(
             locale: const Locale('en'),
@@ -290,6 +296,28 @@ void main() {
 
       expect(menu.controller?.text, 'ISK');
       expect(menu.dropdownMenuEntries.map((e) => e.value).first, 'ISK');
+    });
+
+    testWidgets('service records use shared preferences and offer BRL', (
+      tester,
+    ) async {
+      final menu = await pumpDialog(
+        tester,
+        defaultCurrency: 'BRL',
+        preferred: ['BRL', 'USD'],
+      );
+      final codes = menu.dropdownMenuEntries
+          .map((entry) => entry.value)
+          .toList();
+      expect(codes.take(2), ['BRL', 'USD']);
+      expect(codes, contains('INR'));
+      expect(
+        menu
+            .filterCallback!(menu.dropdownMenuEntries, 'Brazilian')
+            .single
+            .value,
+        'BRL',
+      );
     });
   });
 }

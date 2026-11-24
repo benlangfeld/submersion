@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:submersion/core/built_ins/built_in_catalog.dart';
 import 'package:submersion/core/constants/enums.dart';
 import 'package:submersion/core/providers/provider.dart';
-import 'package:submersion/core/utils/currency.dart';
 import 'package:submersion/core/utils/number_input.dart';
 import 'package:submersion/features/divers/presentation/providers/diver_providers.dart';
 import 'package:submersion/features/equipment/domain/entities/exposure_unit.dart';
@@ -13,6 +12,7 @@ import 'package:submersion/features/equipment/presentation/utils/exposure_interv
 import 'package:submersion/features/equipment/presentation/utils/exposure_unit_display.dart';
 import 'package:submersion/features/equipment/presentation/utils/service_category_label.dart';
 import 'package:submersion/features/settings/presentation/providers/hidden_built_ins_provider.dart';
+import 'package:submersion/features/settings/presentation/providers/currency_preferences_provider.dart';
 import 'package:submersion/features/settings/presentation/providers/settings_providers.dart';
 import 'package:submersion/l10n/l10n_extension.dart';
 import 'package:submersion/shared/selection/bulk_action.dart';
@@ -518,29 +518,37 @@ class _ServiceKindEditDialogState extends State<_ServiceKindEditDialog> {
                 // Full width rather than sharing a row with the price: the
                 // inherit entry is a sentence, not a 3-letter code, and it
                 // overflowed a half-width dropdown even in English.
-                DropdownButtonFormField<String?>(
-                  key: const Key('service-kind-default-currency'),
-                  initialValue: _defaultCurrency,
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    labelText: l10n.equipment_serviceKinds_defaultCurrencyLabel,
-                  ),
-                  items: [
-                    // The null entry is what makes a chosen currency clearable
-                    // again; without it there is no way back to "inherit the
-                    // diver's default".
-                    DropdownMenuItem<String?>(
-                      value: null,
-                      child: Text(
-                        l10n.equipment_serviceKinds_defaultCurrencyInherit,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                Consumer(
+                  builder: (context, ref, _) => DropdownButtonFormField<String?>(
+                    key: const Key('service-kind-default-currency'),
+                    initialValue: _defaultCurrency,
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText:
+                          l10n.equipment_serviceKinds_defaultCurrencyLabel,
                     ),
-                    for (final code in currencyCodesWith(_defaultCurrency))
-                      DropdownMenuItem<String?>(value: code, child: Text(code)),
-                  ],
-                  onChanged: (value) =>
-                      setState(() => _defaultCurrency = value),
+                    items: [
+                      // The null entry is what makes a chosen currency clearable
+                      // again; without it there is no way back to "inherit the
+                      // diver's default".
+                      DropdownMenuItem<String?>(
+                        value: null,
+                        child: Text(
+                          l10n.equipment_serviceKinds_defaultCurrencyInherit,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      for (final code in ref.watch(
+                        currencyOptionsProvider(_defaultCurrency),
+                      ))
+                        DropdownMenuItem<String?>(
+                          value: code,
+                          child: Text(code),
+                        ),
+                    ],
+                    onChanged: (value) =>
+                        setState(() => _defaultCurrency = value),
+                  ),
                 ),
                 const SizedBox(height: 12),
                 // Full width for the same reason as the currency dropdown

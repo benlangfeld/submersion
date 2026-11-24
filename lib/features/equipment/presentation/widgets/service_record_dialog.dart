@@ -15,6 +15,7 @@ import 'package:submersion/features/equipment/domain/services/default_service_co
 import 'package:submersion/features/equipment/presentation/providers/equipment_providers.dart';
 import 'package:submersion/features/equipment/presentation/utils/service_category_label.dart';
 import 'package:submersion/features/settings/presentation/providers/hidden_built_ins_provider.dart';
+import 'package:submersion/features/settings/presentation/providers/currency_preferences_provider.dart';
 import 'package:submersion/features/settings/presentation/providers/settings_providers.dart';
 import 'package:submersion/l10n/l10n_extension.dart';
 import 'package:submersion/shared/widgets/app_date_picker.dart';
@@ -178,12 +179,10 @@ class _ServiceRecordDialogState extends ConsumerState<ServiceRecordDialog> {
 
   /// Codes the currency dropdown offers.
   ///
-  /// [currencyCodesWith] leads with one code outside the presets; the live
-  /// value is added too, because a default resolved from a kind or schedule
-  /// can be an ISO code the presets do not carry, and it must remain visible
-  /// and re-selectable rather than silently missing from the list.
+  /// Keeps both the original code and a live default resolved from a kind or
+  /// schedule selectable, including historical codes outside the catalog.
   List<String> _currencyOptions() {
-    final codes = currencyCodesWith(_initialCurrencyCode);
+    final codes = ref.watch(currencyOptionsProvider(_initialCurrencyCode));
     final live = _currencyController.text.trim().toUpperCase();
     if (live.isEmpty || codes.contains(live)) return codes;
     return [live, ...codes];
@@ -455,14 +454,19 @@ class _ServiceRecordDialogState extends ConsumerState<ServiceRecordDialog> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      // Editable dropdown: common currencies as presets, but
-                      // any ISO code can still be typed. The stored code leads
-                      // the list when it is outside the presets.
+                      // Preferred currencies first, then the full catalog.
+                      // Historical and custom codes can still be typed.
                       child: DropdownMenu<String>(
                         controller: _currencyController,
                         expandedInsets: EdgeInsets.zero,
                         requestFocusOnTap: true,
                         enableFilter: true,
+                        filterCallback: (entries, query) => entries
+                            .where(
+                              (entry) =>
+                                  currencyMatchesQuery(entry.value, query),
+                            )
+                            .toList(),
                         label: Text(
                           context.l10n.equipment_serviceDialog_currencyLabel,
                         ),

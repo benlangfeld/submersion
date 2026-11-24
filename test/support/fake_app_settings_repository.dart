@@ -10,6 +10,17 @@ import 'package:submersion/features/gas_calculators/domain/blending/blender_pref
 /// Dart's implicit interfaces let us implement the concrete repository
 /// directly, so no production-side abstraction is needed.
 class FakeAppSettingsRepository implements AppSettingsRepository {
+  List<String>? preferredCurrencyCodes;
+
+  @override
+  Future<List<String>?> getPreferredCurrencyCodes() async =>
+      preferredCurrencyCodes;
+
+  @override
+  Future<void> setPreferredCurrencyCodes(List<String> codes) async {
+    preferredCurrencyCodes = List.unmodifiable(codes);
+  }
+
   /// The gear arrangement is not exercised by these tests; the notifier falls
   /// back to EquipmentArrangement.defaults when the read returns null.
   @override

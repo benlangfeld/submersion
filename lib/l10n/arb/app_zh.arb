@@ -19300,5 +19300,9 @@
   "settings_homePanels_keyNumbersCount": "{shown}/{total}",
   "settings_homePanels_activityCalendar": "活动日历",
   "settings_homePanels_recentOutings": "近期潜水行程",
-  "settings_homeKeyNumbers_description": "选择首页顶部显示的数字。尚无内容可显示的数字会被省略。"
+  "settings_homeKeyNumbers_description": "选择首页顶部显示的数字。尚无内容可显示的数字会被省略。",
+  "settings_currency_preferred_title": "首选货币",
+  "settings_currency_preferred_subtitle": "选择优先显示的货币。所有货币仍然可用。",
+  "currency_search_hint": "按代码或名称搜索",
+  "currency_noResults": "没有匹配的货币"
 }

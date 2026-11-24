@@ -139,24 +139,31 @@ void main() {
   });
 
   group('currencyCodesWith', () {
-    test('returns the presets unchanged for a preset code', () {
-      expect(currencyCodesWith('EUR'), kCommonCurrencyCodes);
+    test('leads with preferences and also offers the full catalog', () {
+      expect(
+        currencyCodesWith('EUR').take(kCommonCurrencyCodes.length),
+        kCommonCurrencyCodes,
+      );
+      expect(currencyCodesWith('EUR'), contains('BRL'));
     });
 
-    test('returns the presets unchanged for a blank or null code', () {
-      expect(currencyCodesWith(''), kCommonCurrencyCodes);
-      expect(currencyCodesWith('   '), kCommonCurrencyCodes);
-      expect(currencyCodesWith(null), kCommonCurrencyCodes);
+    test('returns the same catalog for a blank or null code', () {
+      expect(currencyCodesWith(''), currencyCodesWith(null));
+      expect(currencyCodesWith('   '), currencyCodesWith(null));
     });
 
     test('leads with a non-preset code so it stays selectable', () {
       final codes = currencyCodesWith('ISK');
       expect(codes.first, 'ISK');
-      expect(codes.sublist(1), kCommonCurrencyCodes);
+      expect(
+        codes.sublist(1).take(kCommonCurrencyCodes.length),
+        kCommonCurrencyCodes,
+      );
+      expect(codes.where((code) => code == 'ISK'), hasLength(1));
     });
 
     test('normalises case and whitespace before comparing', () {
-      expect(currencyCodesWith(' eur '), kCommonCurrencyCodes);
+      expect(currencyCodesWith(' eur '), currencyCodesWith('EUR'));
       expect(currencyCodesWith(' isk ').first, 'ISK');
     });
   });

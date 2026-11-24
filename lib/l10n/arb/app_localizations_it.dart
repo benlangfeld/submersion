@@ -66234,4 +66234,17 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'Scegli i numeri mostrati in cima alla Home. Un numero che non ha ancora nulla da mostrare viene omesso.';
+
+  @override
+  String get settings_currency_preferred_title => 'Valute preferite';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      'Scegli le valute da mostrare per prime. Tutte le valute restano disponibili.';
+
+  @override
+  String get currency_search_hint => 'Cerca per codice o nome';
+
+  @override
+  String get currency_noResults => 'Nessuna valuta trovata';
 }

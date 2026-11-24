@@ -66363,4 +66363,17 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get settings_homeKeyNumbers_description =>
       'Choisissez les chiffres affichés en haut de l\'accueil. Un chiffre qui n\'a encore rien à montrer est omis.';
+
+  @override
+  String get settings_currency_preferred_title => 'Devises préférées';
+
+  @override
+  String get settings_currency_preferred_subtitle =>
+      'Choisissez les devises à afficher en premier. Toutes les devises restent disponibles.';
+
+  @override
+  String get currency_search_hint => 'Rechercher par code ou nom';
+
+  @override
+  String get currency_noResults => 'Aucune devise correspondante';
 }

@@ -38444,5 +38444,21 @@
   "@settings_homePanels_keyNumbersCount": {"placeholders": {"shown": {"type": "int"}, "total": {"type": "int"}}},
   "settings_homePanels_activityCalendar": "Activity calendar",
   "settings_homePanels_recentOutings": "Recent outings",
-  "settings_homeKeyNumbers_description": "Choose the numbers shown at the top of Home. A number with nothing to show yet is left out."
+  "settings_homeKeyNumbers_description": "Choose the numbers shown at the top of Home. A number with nothing to show yet is left out.",
+  "settings_currency_preferred_title": "Preferred currencies",
+  "settings_currency_preferred_subtitle": "Choose currencies to show first. All currencies remain available.",
+  "currency_search_hint": "Search by code or name",
+  "currency_noResults": "No matching currencies",
+  "@settings_currency_preferred_title": {
+    "description": "Settings row and dialog for the shared preferred currency list."
+  },
+  "@settings_currency_preferred_subtitle": {
+    "description": "Explains that preferred currencies appear first without hiding the complete catalog."
+  },
+  "@currency_search_hint": {
+    "description": "Searches the offline ISO currency catalog by code or English ISO name."
+  },
+  "@currency_noResults": {
+    "description": "Empty result in the searchable currency catalog."
+  }
 }

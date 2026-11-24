@@ -22,6 +22,27 @@ void main() {
     await tearDownTestDatabase();
   });
 
+  group('preferred currencies', () {
+    test('unset and an explicitly empty list are distinct', () async {
+      expect(await repository.getPreferredCurrencyCodes(), isNull);
+      await repository.setPreferredCurrencyCodes([]);
+      expect(await repository.getPreferredCurrencyCodes(), isEmpty);
+    });
+
+    test('round trips normalized codes through a new repository', () async {
+      await repository.setPreferredCurrencyCodes([' brl ', 'USD', 'BRL']);
+      expect(await AppSettingsRepository().getPreferredCurrencyCodes(), [
+        'BRL',
+        'USD',
+      ]);
+      final pending = await SyncRepository().getPendingRecords();
+      expect(
+        pending.map((r) => r.recordId),
+        contains('preferred_currency_codes'),
+      );
+    });
+  });
+
   group('AppSettingsRepository.getShareByDefault', () {
     test('returns false when key is absent', () async {
       expect(await repository.getShareByDefault(), isFalse);

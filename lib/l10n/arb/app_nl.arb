@@ -19300,5 +19300,9 @@
   "settings_homePanels_keyNumbersCount": "{shown} van {total}",
   "settings_homePanels_activityCalendar": "Activiteitenkalender",
   "settings_homePanels_recentOutings": "Recente duikuitjes",
-  "settings_homeKeyNumbers_description": "Kies de cijfers bovenaan Start. Een cijfer zonder iets om te tonen wordt weggelaten."
+  "settings_homeKeyNumbers_description": "Kies de cijfers bovenaan Start. Een cijfer zonder iets om te tonen wordt weggelaten.",
+  "settings_currency_preferred_title": "Voorkeursvaluta",
+  "settings_currency_preferred_subtitle": "Kies welke valuta eerst verschijnen. Alle valuta blijven beschikbaar.",
+  "currency_search_hint": "Zoeken op code of naam",
+  "currency_noResults": "Geen overeenkomende valuta"
 }

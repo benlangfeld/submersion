@@ -8,6 +8,7 @@ import 'package:submersion/core/services/database_service.dart';
 import 'package:submersion/core/services/logger_service.dart';
 import 'package:submersion/core/services/sync/device_local_fields.dart';
 import 'package:submersion/core/services/sync/sync_event_bus.dart';
+import 'package:submersion/core/utils/currency.dart';
 import 'package:submersion/features/equipment/domain/models/equipment_arrangement.dart';
 import 'package:submersion/features/gas_calculators/domain/blending/blender_preferences.dart';
 
@@ -32,6 +33,19 @@ class AppSettingsRepository {
   static const _blenderPrefsKey = 'gas_blender_prefs';
   static const _equipmentArrangementKey = 'equipment_arrangement';
   static const _equipmentGroupByLocationKey = 'equipment_group_by_location';
+  static const _preferredCurrencyCodesKey = 'preferred_currency_codes';
+
+  /// Null means use the original defaults; an empty list means no favorites.
+  Future<List<String>?> getPreferredCurrencyCodes() async {
+    final raw = await _getIdListRaw(_preferredCurrencyCodesKey);
+    return raw == null ? null : normalizeCurrencyPreferences(raw);
+  }
+
+  /// Shared across currency selectors and synced with the library settings.
+  Future<void> setPreferredCurrencyCodes(List<String> codes) => _setIdList(
+    _preferredCurrencyCodesKey,
+    normalizeCurrencyPreferences(codes),
+  );
 
   /// Emits whenever the `settings` table changes so providers holding a
   /// setting refresh after a sync applies a remote change.

@@ -111,6 +111,17 @@ class _FakeTripRepository implements TripRepository {
 
 /// Fake AppSettingsRepository that tracks writes without DB access.
 class _FakeAppSettingsRepository implements AppSettingsRepository {
+  List<String>? preferredCurrencyCodes;
+
+  @override
+  Future<List<String>?> getPreferredCurrencyCodes() async =>
+      preferredCurrencyCodes;
+
+  @override
+  Future<void> setPreferredCurrencyCodes(List<String> codes) async {
+    preferredCurrencyCodes = List.unmodifiable(codes);
+  }
+
   /// The gear arrangement is not exercised by these tests; the notifier falls
   /// back to EquipmentArrangement.defaults when the read returns null.
   @override

@@ -144,6 +144,17 @@ class _CounterPageState extends State<_CounterPage> {
 
 /// Fake AppSettingsRepository used by the nav customization tests.
 class _FakeRepo implements AppSettingsRepository {
+  List<String>? preferredCurrencyCodes;
+
+  @override
+  Future<List<String>?> getPreferredCurrencyCodes() async =>
+      preferredCurrencyCodes;
+
+  @override
+  Future<void> setPreferredCurrencyCodes(List<String> codes) async {
+    preferredCurrencyCodes = List.unmodifiable(codes);
+  }
+
   /// The gear arrangement is not exercised by these tests; the notifier falls
   /// back to EquipmentArrangement.defaults when the read returns null.
   @override

@@ -19300,5 +19300,9 @@
   "settings_homePanels_keyNumbersCount": "{shown} / {total}",
   "settings_homePanels_activityCalendar": "Aktivitásnaptár",
   "settings_homePanels_recentOutings": "Legutóbbi merülőtúrák",
-  "settings_homeKeyNumbers_description": "Válaszd ki a Kezdőlap tetején látható számokat. Az a szám, amelyhez még nincs adat, kimarad."
+  "settings_homeKeyNumbers_description": "Válaszd ki a Kezdőlap tetején látható számokat. Az a szám, amelyhez még nincs adat, kimarad.",
+  "settings_currency_preferred_title": "Kedvelt pénznemek",
+  "settings_currency_preferred_subtitle": "Válassza ki az elsőként megjelenő pénznemeket. Minden pénznem elérhető marad.",
+  "currency_search_hint": "Keresés kód vagy név alapján",
+  "currency_noResults": "Nincs megfelelő pénznem"
 }

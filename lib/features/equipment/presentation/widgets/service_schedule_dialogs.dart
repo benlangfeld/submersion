@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:submersion/core/built_ins/built_in_catalog.dart';
 import 'package:submersion/core/constants/enums.dart';
 import 'package:submersion/core/providers/provider.dart';
-import 'package:submersion/core/utils/currency.dart';
 import 'package:submersion/core/utils/number_input.dart';
 import 'package:submersion/core/utils/unit_formatter.dart';
 import 'package:submersion/features/equipment/domain/entities/exposure_unit.dart';
@@ -17,6 +16,7 @@ import 'package:submersion/features/equipment/domain/services/service_due_engine
 import 'package:submersion/features/equipment/presentation/providers/equipment_providers.dart';
 import 'package:submersion/features/equipment/presentation/utils/exposure_interval_input.dart';
 import 'package:submersion/features/equipment/presentation/utils/exposure_unit_display.dart';
+import 'package:submersion/features/settings/presentation/providers/currency_preferences_provider.dart';
 import 'package:submersion/features/settings/presentation/providers/hidden_built_ins_provider.dart';
 import 'package:submersion/l10n/l10n_extension.dart';
 import 'package:submersion/shared/widgets/app_date_picker.dart';
@@ -390,7 +390,9 @@ class _ScheduleOverrideDialogState
                       l10n.equipment_serviceKinds_defaultCurrencyInherit,
                     ),
                   ),
-                  for (final code in currencyCodesWith(_defaultCurrency))
+                  for (final code in ref.watch(
+                    currencyOptionsProvider(_defaultCurrency),
+                  ))
                     DropdownMenuItem<String?>(value: code, child: Text(code)),
                 ],
                 onChanged: (value) => setState(() => _defaultCurrency = value),

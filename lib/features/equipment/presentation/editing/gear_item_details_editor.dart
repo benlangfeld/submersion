@@ -18,6 +18,7 @@ import 'package:submersion/features/equipment/presentation/widgets/equipment_cus
 import 'package:submersion/features/equipment/presentation/widgets/equipment_dive_time_row.dart';
 import 'package:submersion/features/equipment/presentation/widgets/equipment_sharing_row.dart';
 import 'package:submersion/features/equipment/presentation/widgets/service_status_indicator.dart';
+import 'package:submersion/features/settings/presentation/providers/currency_preferences_provider.dart';
 import 'package:submersion/features/settings/presentation/providers/settings_providers.dart';
 import 'package:submersion/l10n/l10n_extension.dart';
 import 'package:submersion/shared/widgets/app_date_picker.dart';
@@ -301,16 +302,23 @@ class _GearItemDetailsEditorState extends ConsumerState<GearItemDetailsEditor> {
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  // Common currencies as presets; any ISO code can still be
-                  // typed.
+                  // Preferred currencies first, then the full catalog;
+                  // historical and custom codes can still be typed.
                   child: DropdownMenu<String>(
                     controller: _currency,
                     expandedInsets: EdgeInsets.zero,
                     requestFocusOnTap: true,
                     enableFilter: true,
+                    filterCallback: (entries, query) => entries
+                        .where(
+                          (entry) => currencyMatchesQuery(entry.value, query),
+                        )
+                        .toList(),
                     label: Text(l10n.equipment_edit_currencyLabel),
                     dropdownMenuEntries: [
-                      for (final code in currencyCodesWith(_initialCurrency))
+                      for (final code in ref.watch(
+                        currencyOptionsProvider(_initialCurrency),
+                      ))
                         DropdownMenuEntry(
                           value: code,
                           label: code,
